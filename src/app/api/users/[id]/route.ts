@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import fs from "fs"
 import path from "path"
 import { User } from "@/types/user"
@@ -35,7 +35,7 @@ const saveUsers = (users: User[]) => {
 }
 
 // GET - Obtener un usuario por ID
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   try {
     const users = getUsers()
     const user = users.find((u: User) => u.id === params.id)
@@ -56,7 +56,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
 }
 
 // PUT - Actualizar un usuario
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
   try {
     const { name, email, role } = await request.json()
 
