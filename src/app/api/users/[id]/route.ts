@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextResponse } from "next/server"
 import fs from "fs"
 import path from "path"
 import { User } from "@/types/user"
@@ -35,7 +35,7 @@ const saveUsers = (users: User[]) => {
 }
 
 // // GET - Obtener un usuario por ID
-// export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+// export async function GET(request: Request, { params }: { params: { id: string } }) {
 //   try {
 //     const users = getUsers()
 //     const user = users.find((u: User) => u.id === params.id)
@@ -56,8 +56,11 @@ const saveUsers = (users: User[]) => {
 // }
 
 // PUT - Actualizar un usuario
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const resolvedParams = await params;
+    const id = resolvedParams.id;
+
     const { name, email, role } = await request.json()
 
     // Validaciones básicas
@@ -66,7 +69,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     }
 
     const users = getUsers()
-    const userIndex = users.findIndex((u: User) => u.id === params.id)
+    const userIndex = users.findIndex((u: User) => u.id === id)
 
     if (userIndex === -1) {
       return NextResponse.json({ message: "Usuario no encontrado" }, { status: 404 })
