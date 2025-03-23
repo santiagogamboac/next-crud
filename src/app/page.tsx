@@ -1,6 +1,6 @@
 import Hero from "@/app/components/hero"
-// import ServicesSection from "@/components/services-section"
-// import TestimonialsSection from "@/components/testimonials-section"
+import ServicesSection from "@/app/components/services-section"
+import TestimonialsSection from "@/app/components/testimonials-section"
 // import CtaSection from "@/components/cta-section"
 import ContactInfo from "@/app/components/contact-info"
 
@@ -8,9 +8,9 @@ export default function Home() {
   return (
     <div>
       <Hero />
-      {/* <ServicesSection />
+      <ServicesSection />
       <TestimonialsSection />
-      <CtaSection /> */}
+      {/* <CtaSection /> */}
       <ContactInfo />
     </div>
   )
