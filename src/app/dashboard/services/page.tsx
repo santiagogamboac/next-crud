@@ -257,7 +257,7 @@ export default function ServicesPage() {
                 resetForm()
                 setShowModal(true)
               }}
-              className="bg-primary text-white px-4 py-2 rounded-md hover:bg-primary/90 transition-colors flex items-center gap-2"
+              className="bg-primary text-black px-4 py-2 rounded-md hover:bg-primary/90 transition-colors flex items-center gap-2"
             >
               <Plus className="h-4 w-4" />
               Añadir Servicio
@@ -370,7 +370,7 @@ export default function ServicesPage() {
             <button
               type="submit"
               form="serviceForm"
-              className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90"
+              className="px-4 py-2 bg-primary text-black rounded-md hover:bg-primary/90"
             >
               {editingService ? "Actualizar" : "Añadir"}
             </button>
