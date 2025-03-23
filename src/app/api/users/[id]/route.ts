@@ -34,26 +34,26 @@ const saveUsers = (users: User[]) => {
   }
 }
 
-// GET - Obtener un usuario por ID
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
-  try {
-    const users = getUsers()
-    const user = users.find((u: User) => u.id === params.id)
+// // GET - Obtener un usuario por ID
+// export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+//   try {
+//     const users = getUsers()
+//     const user = users.find((u: User) => u.id === params.id)
 
-    if (!user) {
-      return NextResponse.json({ message: "Usuario no encontrado" }, { status: 404 })
-    }
+//     if (!user) {
+//       return NextResponse.json({ message: "Usuario no encontrado" }, { status: 404 })
+//     }
 
-    // Filtrar información sensible
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, ...safeUser } = user
+//     // Filtrar información sensible
+//     // eslint-disable-next-line @typescript-eslint/no-unused-vars
+//     const { password, ...safeUser } = user
 
-    return NextResponse.json(safeUser)
-  } catch (error) {
-    console.error("Error getting user:", error)
-    return NextResponse.json({ message: "Error interno del servidor" }, { status: 500 })
-  }
-}
+//     return NextResponse.json(safeUser)
+//   } catch (error) {
+//     console.error("Error getting user:", error)
+//     return NextResponse.json({ message: "Error interno del servidor" }, { status: 500 })
+//   }
+// }
 
 // PUT - Actualizar un usuario
 export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
