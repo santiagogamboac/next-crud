@@ -6,15 +6,12 @@ import { User } from "@/types/user"
 // Ruta al archivo JSON de usuarios
 const usersFilePath = path.join(process.cwd(), "src", "data", "users.json")
 
-// Función para leer usuarios del archivo JSON
 const getUsers = () => {
   try {
-    // Verificar si el archivo existe
     if (!fs.existsSync(usersFilePath)) {
       return []
     }
 
-    // Leer el archivo
     const fileData = fs.readFileSync(usersFilePath, "utf8")
     return JSON.parse(fileData)
   } catch (error) {
@@ -34,26 +31,28 @@ const saveUsers = (users: User[]) => {
   }
 }
 
-// // GET - Obtener un usuario por ID
-// export async function GET(request: Request, { params }: { params: { id: string } }) {
-//   try {
-//     const users = getUsers()
-//     const user = users.find((u: User) => u.id === params.id)
+// GET - Obtener un usuario por ID
+export async function GET(request: Request, { params }: { params:Promise< { id: string }> }) {
+  try {
+    const resolvedParams = await params;
+    const id = resolvedParams.id;
+    const users = getUsers()
+    const user = users.find((u: User) => u.id === id)
 
-//     if (!user) {
-//       return NextResponse.json({ message: "Usuario no encontrado" }, { status: 404 })
-//     }
+    if (!user) {
+      return NextResponse.json({ message: "Usuario no encontrado" }, { status: 404 })
+    }
 
-//     // Filtrar información sensible
-//     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-//     const { password, ...safeUser } = user
+    // Filtrar información sensible
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...safeUser } = user
 
-//     return NextResponse.json(safeUser)
-//   } catch (error) {
-//     console.error("Error getting user:", error)
-//     return NextResponse.json({ message: "Error interno del servidor" }, { status: 500 })
-//   }
-// }
+    return NextResponse.json(safeUser)
+  } catch (error) {
+    console.error("Error getting user:", error)
+    return NextResponse.json({ message: "Error interno del servidor" }, { status: 500 })
+  }
+}
 
 // PUT - Actualizar un usuario
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -105,10 +104,12 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 }
 
 // DELETE - Eliminar un usuario
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const resolvedParams = await params;
+    const id = resolvedParams.id;
     const users = getUsers()
-    const userIndex = users.findIndex((u: User) => u.id === params.id)
+    const userIndex = users.findIndex((u: User) => u.id === id)
 
     if (userIndex === -1) {
       return NextResponse.json({ message: "Usuario no encontrado" }, { status: 404 })
