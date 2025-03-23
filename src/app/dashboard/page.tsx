@@ -1,58 +1,58 @@
-"use client";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { Shield, Eye, Users, Package } from 'lucide-react';
-import Link from "next/link";
+"use client"
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
+import { Shield, Eye, Users, Package } from "lucide-react"
+import Link from "next/link"
 
 interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: "admin" | "user" | "viewer";
+  id: string
+  name: string
+  email: string
+  role: "admin" | "user" | "viewer"
 }
 
 export default function DashboardPage() {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-  const router = useRouter();
+  const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState(true)
+  const router = useRouter()
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await fetch("/api/auth/me");
+        const res = await fetch("/api/auth/me")
         if (res.ok) {
-          const userData = await res.json();
-          setUser(userData);
-          
+          const userData = await res.json()
+          setUser(userData)
+
           // Si el usuario tiene rol "user", redirigir a la página principal
           if (userData.role === "user") {
-            router.push("/");
+            router.push("/")
           }
         } else {
           // No autenticado, redirigir al login
-          router.push("/login");
+          router.push("/login")
         }
       } catch (error) {
-        console.error("Error verificando autenticación:", error);
-        router.push("/login");
+        console.error("Error verificando autenticación:", error)
+        router.push("/login")
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    checkAuth();
-  }, [router]);
+    checkAuth()
+  }, [router])
 
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[60vh]">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
       </div>
-    );
+    )
   }
 
   if (!user) {
-    return null; // El useEffect redirigirá al login
+    return null // El useEffect redirigirá al login
   }
 
   return (
@@ -68,27 +68,21 @@ export default function DashboardPage() {
           </div>
           <div>
             <h1 className="text-2xl font-bold">Bienvenido, {user.name}</h1>
-            <p className="text-gray-600">
-              Rol: {user.role === "admin" ? "Administrador" : "Visualizador"}
-            </p>
+            <p className="text-gray-600">Rol: {user.role === "admin" ? "Administrador" : "Visualizador"}</p>
           </div>
         </div>
-        
+
         <p className="text-gray-700">
-          {user.role === "admin" 
+          {user.role === "admin"
             ? "Como administrador, tienes acceso completo a todas las funcionalidades de la plataforma."
             : "Como visualizador, puedes ver toda la información pero no puedes realizar cambios."}
         </p>
       </div>
 
       {/* Contenido específico según el rol */}
-      {user.role === "admin" ? (
-        <AdminDashboard />
-      ) : (
-        <ViewerDashboard />
-      )}
+      {user.role === "admin" ? <AdminDashboard /> : <ViewerDashboard />}
     </div>
-  );
+  )
 }
 
 function AdminDashboard() {
@@ -96,9 +90,12 @@ function AdminDashboard() {
     <div className="space-y-8">
       <div className="bg-white rounded-lg shadow-md p-6">
         <h2 className="text-xl font-bold mb-6">Panel de Administración</h2>
-        
+
         <div className="grid md:grid-cols-2 gap-6">
-          <Link href="/dashboard/users" className="border rounded-lg p-6 hover:shadow-md transition-shadow flex items-center gap-4">
+          <Link
+            href="/dashboard/users"
+            className="border rounded-lg p-6 hover:shadow-md transition-shadow flex items-center gap-4"
+          >
             <div className="bg-primary/10 p-3 rounded-full">
               <Users className="h-6 w-6 text-primary" />
             </div>
@@ -107,8 +104,11 @@ function AdminDashboard() {
               <p className="text-gray-600 text-sm">Administra los usuarios de la plataforma</p>
             </div>
           </Link>
-          
-          <Link href="/dashboard/services" className="border rounded-lg p-6 hover:shadow-md transition-shadow flex items-center gap-4">
+
+          <Link
+            href="/dashboard/services"
+            className="border rounded-lg p-6 hover:shadow-md transition-shadow flex items-center gap-4"
+          >
             <div className="bg-primary/10 p-3 rounded-full">
               <Package className="h-6 w-6 text-primary" />
             </div>
@@ -119,62 +119,65 @@ function AdminDashboard() {
           </Link>
         </div>
       </div>
-      
+
       <div className="bg-white rounded-lg shadow-md p-6">
         <h2 className="text-xl font-bold mb-4">Estadísticas</h2>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="border rounded-lg p-4">
             <div className="text-2xl font-bold text-primary mb-1">24</div>
             <div className="text-gray-600 text-sm">Usuarios Registrados</div>
           </div>
-          
-          {/* <div className="border rounded-lg p-4">
+
+          <div className="border rounded-lg p-4">
             <div className="text-2xl font-bold text-primary mb-1">4</div>
             <div className="text-gray-600 text-sm">Servicios Activos</div>
           </div>
-          
+
           <div className="border rounded-lg p-4">
             <div className="text-2xl font-bold text-primary mb-1">128</div>
             <div className="text-gray-600 text-sm">Visitas Mensuales</div>
-          </div> */}
+          </div>
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 function ViewerDashboard() {
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [users, setUsers] = useState<User[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch("/api/users");
+        const res = await fetch("/api/users")
         if (res.ok) {
-          const data = await res.json();
-          setUsers(data);
+          const data = await res.json()
+          setUsers(data)
         } else {
-          console.error("Error fetching users");
+          console.error("Error fetching users")
         }
       } catch (error) {
-        console.error("Error:", error);
+        console.error("Error:", error)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    fetchUsers();
-  }, []);
+    fetchUsers()
+  }, [])
 
   return (
     <div className="space-y-8">
       <div className="bg-white rounded-lg shadow-md p-6">
         <h2 className="text-xl font-bold mb-4">Panel de Visualización</h2>
-        
+
         <div className="grid md:grid-cols-2 gap-6">
-          <Link href="/dashboard/users" className="border rounded-lg p-6 hover:shadow-md transition-shadow flex items-center gap-4">
+          <Link
+            href="/dashboard/users"
+            className="border rounded-lg p-6 hover:shadow-md transition-shadow flex items-center gap-4"
+          >
             <div className="bg-primary/10 p-3 rounded-full">
               <Users className="h-6 w-6 text-primary" />
             </div>
@@ -183,8 +186,11 @@ function ViewerDashboard() {
               <p className="text-gray-600 text-sm">Ver listado de usuarios</p>
             </div>
           </Link>
-          
-          <div className="border rounded-lg p-6 hover:shadow-md transition-shadow flex items-center gap-4">
+
+          <Link
+            href="/dashboard/services"
+            className="border rounded-lg p-6 hover:shadow-md transition-shadow flex items-center gap-4"
+          >
             <div className="bg-primary/10 p-3 rounded-full">
               <Package className="h-6 w-6 text-primary" />
             </div>
@@ -192,35 +198,35 @@ function ViewerDashboard() {
               <h3 className="font-semibold text-lg">Servicios</h3>
               <p className="text-gray-600 text-sm">Ver catálogo de servicios</p>
             </div>
-          </div>
+          </Link>
         </div>
       </div>
-      
+
       {/* Añadiendo estadísticas para el rol "viewer" */}
       <div className="bg-white rounded-lg shadow-md p-6">
         <h2 className="text-xl font-bold mb-4">Estadísticas</h2>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="border rounded-lg p-4">
             <div className="text-2xl font-bold text-primary mb-1">24</div>
             <div className="text-gray-600 text-sm">Usuarios Registrados</div>
           </div>
-          
+
           <div className="border rounded-lg p-4">
             <div className="text-2xl font-bold text-primary mb-1">4</div>
             <div className="text-gray-600 text-sm">Servicios Activos</div>
           </div>
-          
+
           <div className="border rounded-lg p-4">
             <div className="text-2xl font-bold text-primary mb-1">128</div>
             <div className="text-gray-600 text-sm">Visitas Mensuales</div>
           </div>
         </div>
       </div>
-      
+
       <div className="bg-white rounded-lg shadow-md p-6">
         <h2 className="text-xl font-bold mb-4">Listado de Usuarios</h2>
-        
+
         {loading ? (
           <div className="flex justify-center py-8">
             <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
@@ -252,13 +258,15 @@ function ViewerDashboard() {
                         <div className="text-sm text-gray-500">{user.email}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          user.role === "admin" 
-                            ? 'bg-purple-100 text-purple-800' 
-                            : user.role === "user"
-                              ? 'bg-blue-100 text-blue-800'
-                              : 'bg-green-100 text-green-800'
-                        }`}>
+                        <span
+                          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                            user.role === "admin"
+                              ? "bg-purple-100 text-purple-800"
+                              : user.role === "user"
+                                ? "bg-blue-100 text-blue-800"
+                                : "bg-green-100 text-green-800"
+                          }`}
+                        >
                           {user.role === "admin" ? "Administrador" : user.role === "user" ? "Usuario" : "Visualizador"}
                         </span>
                       </td>
@@ -277,5 +285,6 @@ function ViewerDashboard() {
         )}
       </div>
     </div>
-  );
+  )
 }
+
