@@ -182,7 +182,7 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="inline-flex items-center justify-center bg-primary text-white font-medium py-3 px-6 rounded-md hover:bg-primary/90 transition-colors"
+                className="inline-flex items-center justify-center bg-primary text-black font-medium py-3 px-6 rounded-md hover:bg-primary/90 transition-colors"
               >
                 {isSubmitting ? (
                   "Enviando..."

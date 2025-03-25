@@ -8,11 +8,11 @@ export default function Hero() {
         <div className="grid md:grid-cols-2 gap-8 items-center">
           <div className="text-center md:text-left order-2 md:order-1">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 sm:mb-6">
-              Soluciones Profesionales para tu Negocio
+              Servicios Profesionales para tu Moto
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 max-w-lg mx-auto md:mx-0">
-              Ofrecemos servicios de alta calidad diseñados para impulsar el crecimiento de tu empresa y optimizar tus
-              operaciones.
+            Ofrecemos servicios de alta calidad diseñados para
+            el cuidado especializado de tu moto.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center md:justify-start">
               <Link
@@ -32,7 +32,7 @@ export default function Hero() {
           <div className="order-1 md:order-2 mb-6 md:mb-0">
           <div className="relative w-full max-w-[450px] mx-auto md:max-w-[600px] aspect-[4/3]">
     <Image
-      src="/placeholder.svg?height=500&width=600"
+      src="/images/moto.jpg"
       alt="Servicios Profesionales"
       fill
       sizes="(min-width: 768px) 50vw, 100vw"

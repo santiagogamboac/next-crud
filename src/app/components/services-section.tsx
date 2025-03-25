@@ -1,31 +1,25 @@
-import { Shield, Zap, BarChart, Users } from "lucide-react"
+import { Shield, Zap, BarChart } from "lucide-react"
 
 export default function ServicesSection() {
   const services = [
     {
       icon: <Shield className="h-10 w-10 text-primary" />,
-      title: "Servicio Premium",
+      title: "Servicio Básico",
       description:
-        "Soluciones completas con soporte prioritario y funcionalidades avanzadas para maximizar el rendimiento de tu negocio.",
+        "Mantenimiento esencial para motociclistas que buscan un servicio mensual accesible y eficiente.",
     },
     {
       icon: <Zap className="h-10 w-10 text-primary" />,
-      title: "Servicio Básico",
+      title: "Plan Regular",
       description:
-        "Paquete esencial con todas las herramientas necesarias para comenzar a optimizar tus operaciones empresariales.",
+        "Este plan mejora el rendimiento y la seguridad de la moto con servicios adicionales.",
     },
     {
       icon: <BarChart className="h-10 w-10 text-primary" />,
-      title: "Servicio Empresarial",
+      title: "Plan Premium",
       description:
-        "Solución escalable diseñada específicamente para empresas con necesidades complejas y equipos grandes.",
-    },
-    {
-      icon: <Users className="h-10 w-10 text-primary" />,
-      title: "Soluciones Personalizadas",
-      description:
-        "Servicios a medida adaptados a los requerimientos específicos de tu organización y objetivos de negocio.",
-    },
+        "Garantiza un rendimiento óptimo y un acabado impecable con mantenimiento avanzado.",
+    }
   ]
 
   return (
@@ -39,7 +33,7 @@ export default function ServicesSection() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
             <div
               key={index}
